@@ -8,13 +8,27 @@ function renderBeers (){
 	}
 }
 
-function sortBeers (){
-	beers.sort(SortByRate);
+function sortBeers (_sorted, _sortedAsc){
+	if (_sorted && _sortedAsc) {
+		beers.sort(SortDesByRate);		
+		sortedAsc = false;
+	}
+	else {
+		beers.sort(SortAscByRate);
+		sortedAsc = true;
+	}
+	
 }
-function SortByRate(a, b){
-  var aName = a.rate.toLowerCase();
-  var bName = b.rate.toLowerCase(); 
-  return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+
+function SortAscByRate(a, b){
+  var aRate = a.rate.toLowerCase();
+  var bRate = b.rate.toLowerCase(); 
+  return ((aRate < bRate) ? -1 : ((aRate > bRate) ? 1 : 0));
+}
+function SortDesByRate(a, b){
+  var aRate = a.rate.toLowerCase();
+  var bRate = b.rate.toLowerCase(); 
+  return ((aRate > bRate) ? -1 : ((aRate < bRate) ? 1 : 0));
 }
 
 $( '.post-beer' ).click(function () {
@@ -26,11 +40,14 @@ $( '.post-beer' ).click(function () {
 	
 });
 
-$( '.sort-beer' ).click(function () {
-	sortBeers ();
+$( '.sort-beer' ).click(function () {	
+	sortBeers (sorted, sortedAsc);
+	sorted = true;
 	renderBeers();
 });
 
+var sorted = false;
+var sortedAsc = false;
 var beers = [];
 
 //beers.sort(function(a, b) {
